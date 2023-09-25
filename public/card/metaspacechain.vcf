@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:3.0
+REV:2023-09-22T18:38:41Z
+N;CHARSET=utf-8:;metaspacechain;;;
+FN;CHARSET=utf-8:metaspacechain
+ORG;CHARSET=utf-8:metaspacechain
+ROLE;CHARSET=utf-8:Software Engineer
+TEL;TYPE#WORK,VOICE:0000000000
+TEL;WORK:whatsapp
+END:VCARD

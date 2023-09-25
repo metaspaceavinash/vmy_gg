@@ -1,0 +1,14 @@
+BEGIN:VCARD
+VERSION:3.0
+REV:2023-09-20T19:25:08Z
+N;CHARSET=utf-8:;The Orion;;;
+FN;CHARSET=utf-8:The Orion
+ORG;CHARSET=utf-8:The Orion
+ROLE;CHARSET=utf-8:A Complete Web Solution
+TEL;TYPE#WORK,VOICE:9090909090
+EMAIL;INTERNET:support@theorion.org.in
+URL;TYPE=Youtube:google.com
+URL;TYPE=Figma:google.com
+URL;TYPE=LinkedIn:google.com
+URL;TYPE=Twitter:google.com
+END:VCARD
