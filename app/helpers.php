@@ -1,4 +1,8 @@
 <?php
+	use App\Models\User;
+	use App\Models\Business;
+
+
     function pixelSourceCode($platform, $pixelId)
     {
     	// Facebook Pixel script
@@ -241,5 +245,52 @@
 				}
 		}
 	}
+
+	function getUserName($uid){
+		$user = User::where('id',$uid)->first();
+		return ucfirst($user->name);
+	}
+
+	function getBusinessName($bid){
+		$bs = Business::where('id',$bid)->first();
+		return ucfirst($bs->title);
+	}
+
+	function getStatus($st){
+        //1-Pending 2-Printed 3-Dispacthed 4-Failed 5-Done
+		$status[0]='Select';
+		$status[1]='Proceed';
+		$status[2]='Printed';
+		$status[3]='Dispacthed';
+		$status[4]='Failed';
+		$status[5]='Done';
+		return $status[$st];
+	}
+
+	function getStClass($st){
+        //1-Pending 2-Printed 3-Dispacthed 4-Failed 5-Done
+		$status[0]='Select';
+		$status[1]='warning';
+		$status[2]='danger';
+		$status[3]='primary';
+		$status[4]='secondary';
+		$status[5]='info';
+		$status[6]='dark';
+		return $status[$st];
+	}
+
+	function dmy($dateYMD){
+		$dateDMY=null;
+		if($dateYMD){
+		$dateDMY = date("d-m-Y", strtotime($dateYMD));
+		}
+		return $dateDMY;
+	}
+
+	function strpad($number){
+		return $paddedNumber = str_pad($number, 5, '0', STR_PAD_LEFT);
+	}
+
+
 
 ?>

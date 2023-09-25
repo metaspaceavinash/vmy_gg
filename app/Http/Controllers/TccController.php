@@ -33,4 +33,9 @@ class TccController extends Controller
         return view('layouts.about');
     }
 
+    public function shipping()
+    {
+        return view('layouts.shipping');
+    }
+
 }

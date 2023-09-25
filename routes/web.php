@@ -4,6 +4,7 @@ use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PhysicalController;
 use App\Http\Controllers\AppointmentDeatailController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\UserController;
@@ -60,15 +61,32 @@ require __DIR__ . '/auth.php';
 Route::post('/login_b1', [AuthenticatedSessionController::class, 'store_b1']);
 
 Route::get('/', [HomeController::class, 'landingPage'])->middleware('XSS')->name('home');
+Route::get('/tc', [TccController::class, 'index'])->middleware('XSS')->name('tcc');
+Route::get('/refund', [TccController::class, 'refund'])->middleware('XSS')->name('refund');
+
+
 Route::any('cookie_consent', [SystemController::class, 'CookieConsent'])->name('cookie-consent');
 Route::any('card_cookie_consent', [BusinessController::class, 'cardCookieConsent'])->name('card-cookie-consent');
 Route::get('/tc', [TccController::class, 'index'])->middleware('XSS')->name('tcc');
 Route::get('/refund', [TccController::class, 'refund'])->middleware('XSS')->name('refund');
 Route::get('/privacy-policy', [TccController::class, 'privacy'])->middleware('XSS')->name('privacy.policy');
+Route::get('/shipping-policy', [TccController::class, 'shipping'])->middleware('XSS');
 Route::get('/faqs', [TccController::class, 'faqs'])->middleware('XSS')->name('faqs');
 Route::get('/about', [TccController::class, 'about'])->middleware('XSS')->name('about');
 
 Route::group(['middleware' => ['verified']], function () {
+
+    Route::get('/physical_card', [PhysicalController::class, 'index'])->middleware('XSS', 'auth')->name('physical_card.index');
+    Route::get('/physical_card_status/{id?}', [PhysicalController::class, 'action_popup'])->middleware('XSS', 'auth')->name('physical_card.action_popup');
+    Route::get('/action_view_card/{id?}', [PhysicalController::class, 'action_view_card'])->middleware('XSS', 'auth')->name('physical_card.action_view_card');
+
+    // Route::post('/physical_card', [PhysicalController::class, 'index'])->middleware('XSS', 'auth')->name('physical_card.index');
+
+    Route::post('/get_dyn_phycard', [PhysicalController::class, 'getCont'])->middleware('XSS', 'auth');
+    Route::post('/card_request', [PhysicalController::class, 'card_request'])->middleware('XSS', 'auth');
+    Route::post('/pstatus_store', [PhysicalController::class, 'pstatus_store'])->middleware('XSS', 'auth')->name('physical_card.pstatus_store');
+
+
 
     Route::get('/home', [HomeController::class, 'index'])->middleware('XSS', 'auth', 'CheckPlan')->name('home');
     Route::get('/dashboard', [HomeController::class, 'index'])->middleware('XSS', 'auth', 'CheckPlan')->name('dashboard');
@@ -93,7 +111,12 @@ Route::group(['middleware' => ['verified']], function () {
 
         Route::resource('appointments', AppointmentDeatailController::class);
         Route::get('appoinments/{slug?}', [AppointmentDeatailController::class, 'index'])->name('appointments.index');
+        
+        Route::get('request_cards', [PhysicalController::class, 'view_request_order'])->name('physical.view_request_order');
+        Route::get('request_cards/{slug?}', [PhysicalController::class, 'view_request_order'])->name('physical.view_request_order');
 
+        Route::get('sadmin_request_cards', [PhysicalController::class, 'sadmin_view_request_order'])->name('physical.sadmin_view_request_order');
+        Route::get('sadmin_request_cards/{slug?}', [PhysicalController::class, 'sadmin_view_request_order'])->name('physical.sadmin_view_request_order');
 
         Route::resource('users', UserController::class);
         Route::get('user/{id}/plan', [UserController::class, 'upgradePlan'])->name('plan.upgrade')->middleware('XSS');

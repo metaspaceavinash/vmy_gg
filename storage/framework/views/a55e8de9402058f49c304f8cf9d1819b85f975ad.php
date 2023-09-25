@@ -282,9 +282,10 @@ footer a:hover{ color: #fff;}
             <h3> Links</h3>
           <ul>
           <li> <a href="<?php echo e(url('faqs')); ?>">FAQs</a></li>
-              <li> <a href="<?php echo e(url('privacy-policy')); ?>">Privacy</a></li>
-              <li> <a href="<?php echo e(url('refund')); ?>">Refund</a></li>
-              <li> <a href="<?php echo e(url('tc')); ?>">T&amp;C</a></li>
+          <li> <a href="<?php echo e(url('shipping-policy')); ?>">Shipping</a></li>
+          <li> <a href="<?php echo e(url('privacy-policy')); ?>">Privacy</a></li>
+          <li> <a href="<?php echo e(url('refund')); ?>">Refund</a></li>
+          <li> <a href="<?php echo e(url('tc')); ?>">T&amp;C</a></li>
 
 </ul>
         </div>

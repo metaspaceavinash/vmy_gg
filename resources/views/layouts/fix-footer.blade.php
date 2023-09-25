@@ -281,9 +281,10 @@ footer a:hover{ color: #fff;}
             <h3> Links</h3>
           <ul>
           <li> <a href="{{ url('faqs') }}">FAQs</a></li>
-              <li> <a href="{{ url('privacy-policy') }}">Privacy</a></li>
-              <li> <a href="{{ url('refund') }}">Refund</a></li>
-              <li> <a href="{{ url('tc') }}">T&amp;C</a></li>
+          <li> <a href="{{ url('shipping-policy') }}">Shipping</a></li>
+          <li> <a href="{{ url('privacy-policy') }}">Privacy</a></li>
+          <li> <a href="{{ url('refund') }}">Refund</a></li>
+          <li> <a href="{{ url('tc') }}">T&amp;C</a></li>
 
 </ul>
         </div>
