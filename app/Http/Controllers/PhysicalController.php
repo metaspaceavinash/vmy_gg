@@ -14,6 +14,7 @@ use App\Models\CardRequest;
 use App\Models\ContactInfo;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CardRequestMail;
+use App\Models\ShippingModel;
 
 class PhysicalController extends Controller
 {
@@ -232,5 +233,38 @@ class PhysicalController extends Controller
         $p_status=$request->p_status;
         \DB::table('card_requests')->where('id', $p_id)->update(['comment' => $p_comment,'status' =>$p_status]);
         return redirect()->back()->with('success', 'Status Change successfully');
+    }
+
+    public function add_shipping_address(Request $request){
+        // $data=$this->getBusin($request);
+        $data=array();
+        return view('physical-cards.shipping_address',$data);
+    }
+
+    
+    public function store_shipping_address(Request $request){
+        $ShippingModel = new ShippingModel();
+        $ShippingModel->user_id = 2;
+        $ShippingModel->fullname = $request->fullname;
+        $ShippingModel->mobile1 = $request->mobile1;
+        $ShippingModel->mobile2 = $request->mobile2;
+        $ShippingModel->email = $request->email;
+        $ShippingModel->address1 = $request->address1;
+        $ShippingModel->address2 = $request->address2;
+        $ShippingModel->city = $request->city;
+        $ShippingModel->state = $request->state;
+        $ShippingModel->email = $request->email;
+        $ShippingModel->country = $request->country?$request->country:'';
+        $ShippingModel->pincode = $request->pincode?$request->pincode:'';
+        $ShippingModel->location_url = $request->location_url?$request->location_url:'';
+        $ShippingModel->landmark = $request->landmark;
+        $ShippingModel->address_type = $request->address_type?$request->address_type:'';
+        $ShippingModel->save();
+        $data=array();
+        return redirect()->back()->with('success', 'Address Change successfully');
+
+        // return view('physical-cards.shipping_address',$data);
+
+
     }
 }
