@@ -19,7 +19,7 @@ class PhysicalController extends Controller
 {
     public function index(Request $request){
         $data=$this->getBusin($request);
-        return view('plan.physical',$data);
+        return view('physical-cards.main_physical',$data);
     }
 
 
@@ -196,31 +196,16 @@ class PhysicalController extends Controller
     public function action_view_card($p_id)
     {
         $rs = CardRequest::where('id', '=', $p_id)->first();
-        // print_r($rs);
-        // die("Asdf");
-    //    id	user_id	business_id		card_url	ordered_at		designation	phone	email	contact_address	subtitle	website_url		qr_code	status	printed_at	comment	
-        // $qr_detail = Businessqr::where('business_id', $rs->business_id)->first();
-        // $qr_detail = \App\Models\Businessqr::where('business_id', $rs->business_id)->first();
         $SER=env('APP_URL');
         if (isset($rs->logo_url)) {
             $logo_p=$rs->logo_url;
         } else {
             $logo_p=$SER."/assets/card-images/logo2.png";
         }
-
         $user = \Auth::user();
         $business_id = $user->current_business;
         $business = Business::where('id', $rs->business_id)->first();
-
-        $qr_detail = Businessqr::where('business_id', $rs->$business_id)->first();
-        $users = User::find(\Auth::user()->creatorId());
-            $plan = Plan::find($users->plan);
-            if ($plan->storage_limit > 0) {
-                $storage_limit = ($users->storage_limit / $plan->storage_limit) * 100;
-            } else {
-                $storage_limit = 0;
-            }
-        $businessData = \App\Models\Business::where('id',$users->current_business)->where('created_by', \Auth::user()->creatorId())->first();
+        $businessData = \App\Models\Business::where('id',$rs->business_id)->first();
         if(!empty($businessData))
         {
             $qr_detail = \App\Models\Businessqr::where('business_id', $businessData->id)->first();
@@ -235,10 +220,8 @@ class PhysicalController extends Controller
             'logo_white'=>$logo_p,
             'logo_black'=>$logo_p,
             'qr_detail' => isset($qr_detail) ? $qr_detail : null,
-            'qr_detail' => isset($qr_detail) ? $qr_detail : null,
             'businessData'=>isset($businessData) ? $businessData : null,
         ];
-        // print_r($data); die("asf");
         return view('physical-cards.action_view_card',$data);
     }
 

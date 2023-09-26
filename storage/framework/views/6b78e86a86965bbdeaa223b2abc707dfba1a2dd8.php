@@ -1,32 +1,3 @@
-<?php
-    $dir = asset(Storage::url('uploads/plan'));
-    $qr_path = \App\Models\Utility::get_file('qrcode');
-    $SER=env('APP_URL');   //$_SERVER['HTTP_ORIGIN'];
-?>
-<?php echo $__env->make('physical-cards.css_ph1',[$SER,$card_id], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<!-- <link rel="stylesheet" type="text/css" href="<?php echo e(asset('assets/card-images/cardview.css')); ?>"> -->
-<div class=" row m-4">
-    <div class="col-12 col-lg-5">
-        <img src="<?php echo e($SER); ?>/assets/card-images/loader3.gif" class="spingif k11 d-none " />
-        <div class="card-display">
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <img src="<?php echo e($logo_white); ?>" width="150px" class="j_sww" >
-                            </div>
-                            <div class="flip-card-back ww">
-                                <ul class="info">
-                                    <li class="qrcode"><div class="shareqrcode">QR</div></li>
-                                    <li class="name-crdowner" style="color:#fff"><?php echo e($title); ?></li>
-                                    <li class="degnition"><?php echo e($designation); ?></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </div>
-    </div>
-</div>
 <script src="<?php echo e(asset('custom/js/purpose.js')); ?>"></script>
 <script src="<?php echo e(asset('custom/js/jquery.qrcode.min.js')); ?>"></script>
 <script>
@@ -58,4 +29,4 @@
                 mSize: .01 * parseInt(size, 10)
             });
         });
-</script><?php /**PATH C:\laragon\www\vmy_gg\vmycard\resources\views/physical-cards/action_view_card.blade.php ENDPATH**/ ?>
+</script><?php /**PATH C:\laragon\www\vmy_gg\vmycard\resources\views/physical-cards/qrcode_js1.blade.php ENDPATH**/ ?>

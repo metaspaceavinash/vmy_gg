@@ -1,8 +1,5 @@
-<?php //print_r($_SERVER);
-$SER=$_SERVER['HTTP_ORIGIN'];
+<?php  
 $SER=env('APP_URL');
- 
-
 ?>
 <style>
      .postion-r {

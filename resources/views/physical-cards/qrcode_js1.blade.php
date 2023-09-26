@@ -1,32 +1,3 @@
-@php
-    $dir = asset(Storage::url('uploads/plan'));
-    $qr_path = \App\Models\Utility::get_file('qrcode');
-    $SER=env('APP_URL');   //$_SERVER['HTTP_ORIGIN'];
-@endphp
-@include('physical-cards.css_ph1',[$SER,$card_id])
-<!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/card-images/cardview.css') }}"> -->
-<div class=" row m-4">
-    <div class="col-12 col-lg-5">
-        <img src="{{ $SER }}/assets/card-images/loader3.gif" class="spingif k11 d-none " />
-        <div class="card-display">
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <img src="{{ $logo_white }}" width="150px" class="j_sww" >
-                            </div>
-                            <div class="flip-card-back ww">
-                                <ul class="info">
-                                    <li class="qrcode"><div class="shareqrcode">QR</div></li>
-                                    <li class="name-crdowner" style="color:#fff">{{ $title }}</li>
-                                    <li class="degnition">{{ $designation }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </div>
-    </div>
-</div>
 <script src="{{ asset('custom/js/purpose.js') }}"></script>
 <script src="{{ asset('custom/js/jquery.qrcode.min.js') }}"></script>
 <script>
