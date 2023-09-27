@@ -59,6 +59,8 @@ span.nameinfo {
     </style>
     <br/>
     <br/>
+    <form name="card_request" id="card_request" action="/card_request" method="post">
+    
 <div class="container">
     <div class="row">
         <div class="col-12 col-lg-8">
@@ -73,83 +75,121 @@ span.nameinfo {
       </button>
     </div>
     <ul class="addresss">
-        <li >
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-
-                    <span class="nameinfo">Abhinash ,Mobile No. - 9876543210, demo@gmail.com</span><br>
-                    5th Floor, 8 Square Tower, Plot No. 8, Sector 125, Noida, Uttar Pradesh 201303
-                </label>
-              </div>
-              <button class="btnedit" data-bs-toggle="modal" data-bs-target="#addressform">Edit Address</button>
-        </li>
+       
+    <?php foreach($rs as $ke=>$r){ ?>
         <li>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                    <span class="nameinfo">Abhinash ,Mobile No. - 9876543210, demo@gmail.com</span><br>
-                    5th Floor, 8 Square Tower, Plot No. 8, Sector 125, Noida, Uttar Pradesh 201303
+                <input class="form-check-input radio_address" type="radio" name="flexRadioDefault" id="ff_{{ $r->id }}" val="{{ $r->id  }}">
+                <label class="form-check-label" for="ff_{{ $r->id  }}">
+                    <span class="nameinfo">
+                    {{ $r->fullname }}
+                    {{ $r->mobile1	}}	
+                    {{ $r->mobile2 }}	
+                    {{ $r->email }}	
+                    </span>
+                    <br/>
+                    {{ $r->address1 }}	
+                    {{ $r->address2 }}
+                    {{ $r->city }}
+                    {{ $r->state }}
+                    {{ $r->country }}
+                    {{ $r->pincode }}	
+                    {{ $r->location_url }}	
+                    {{ $r->landmark }}
+                    {{ $r->address_type }}
                 </label>
               </div>
-              <button class="btnedit" data-bs-toggle="modal" data-bs-target="#addressform">Edit Address</button>
+              <button class="btnedit d-none" data-bs-toggle="modal" data-bs-target="#addressform">Edit Address</button>
         </li>
+    <?php } ?>
+
+
     </ul>
 </div>
     </div>
 </div>
             </div>
         </div>
+
         <div class="col-12 col-lg-4">
             <div class="iinerboxxx ">
-                <h1 class="name">Plan Summery</h1>
+                <h1 class="name">Plan Summary </h1>
                 <div class="orderbox">
-                    <p>Plan Name : Premium Plan </p>
-                    <p>NPhysical Card Balance : 03/10</p>
-                    <p>PVC Card Balance : 2/3 </p>
-                    <p>Metel Card Balance: 2/3</p>
+                    <p>Plan Name : {{ $plan->name }}  </p>
+                    <p class="d-none">Physical Card Balance : {{ $PVC_COUNT+$METAL_COUNT }} / {{ $plan->no_of_pvc_card+$plan->no_of_metal_card }} </p>
+                    @if($plan->enable_physical_pvc=='on')
+                    <p class="">PVC Card Balance : @if($plan->no_of_pvc_card-$PVC_COUNT < 0) {{ '0' }} @else {{ $plan->no_of_pvc_card-$PVC_COUNT }} @endif / {{ $plan->no_of_pvc_card }} </p>
+                    @endif
 
-                    </div>
+                    @if($plan->enable_physical_metal=='off')
+                    <p  >Metel Card Balance: {{ $METAL_COUNT }} / {{ $plan->no_of_metal_card }} </p>
+                    @endif
+                    <div class="row d-none">
+                       <div class="col-6 col-lg-6">
+                    <select name="card_type" id="card_type" class="form-control">
+                            <option value="PVC">PVC Card</option>
+                            <option value="METAL">Metal Card</option>
+                      </select> </div>
+                      
+                      <div class="col-6 col-lg-6">
+                      <button type="button" id="updateCardType" card-req-id="{{ $card_request_deatails->id }}" class="btn btn-primary ">Choose</button>
+                           </div>
+                           </div>
+                  </div>
             </div>
-            <div class="iinerboxxx mt-4">
-                <h1 class="name">Order Summery</h1>
+            <div id="orderSummery" class="iinerboxxx mt-4 ">
+                <h1 class="name">Order summary</h1>
                 <div class="orderbox">
                     <ul class="list-group mb-3">
                         <li class="list-group-item d-flex justify-content-between 5h-sm py-3">
                             <div class="d-flex">
-                            <img src="https://dummyimage.com/70x50/000/fff" class="img-fluid ">
+                            <!-- https://dummyimage.com/70x50/000/fff -->
+                            <img src="{{ env('APP_URL') }}/assets/card-images/{{ $card_request_deatails->card_id?$card_request_deatails->card_id:1 }}FrontBlank.png" width="70px" height="50px" class="img-fluid ">
                           <div class="ms-2">
-                            <h6 class="my-0">Product name</h6>
-                            <small class="text-muted">Brief description</small>
+                            <h6 class="my-0">{{ $card_request_deatails->name }}</h6>
+                            <small class="text-muted">{{ $card_request_deatails->designation }}</small>
                           </div>
                         </div>
-                          <span class="text-muted">$12</span>
+                          <span   class="text-muted _price">{{ env('CARD_PRICE_PVC') }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
-                            <span>Discont</span>
-                            <strong>- $10</strong>
+                            <span>Discount</span>
+                            <strong>- 0</strong>
                           </li>
                         <li class="list-group-item d-flex justify-content-between">
                           <span>Total Amount</span>
-                          <strong>$20</strong>
+                          <strong class="_price">{{ env('CARD_PRICE_PVC') }}</strong>
                         </li>
                       </ul>
-                      <form class="card p-2 bg-dark">
                         <div class="input-group">
                           <input type="text" class="form-control" placeholder="Promo code">
                           <button type="submit" class="btn btn-secondary">Redeem</button>
                         </div>
-                      </form>
+@if($plan->no_of_pvc_card-$PVC_COUNT>0)
+<button type="submit" class="btn btn-primary _ordernow  mt-4 payraz"  name="save">Order Now</button>
+@else 
+                      <div class="d-grid text-center _paynow mt-4">
+                          <a href="{{ route('phy_stripe', \Illuminate\Support\Facades\Crypt::encrypt($card_request_deatails->id)) }}"
+                              class="btn  btn-primary d-flex justify-content-center align-items-center  payraz ">     {{ 'Pay Now' }}
+                              <i class="fas fa-arrow-right m-1"></i></a>
+                          <p></p>
+                      </div>
 
-                      <button type="submit" class="btn btn-primary" name="save">Order Now</button>
-                      <button type="submit" class="btn btn-primary" name="save">Pay Now</button>
-
-
+                      @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+        <input type="hidden" name="card_req_id" id="card_req_id" value="{{ $card_request_deatails->id }}" />
+
+      </form>
+
+
+
+
 <!-- Modal -->
 <div class="modal fade" id="addressform" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -164,7 +204,7 @@ span.nameinfo {
                        <div class="col-md-6">
                   <label for="inputEmail4" class="form-label">Full Name</label>
                     <input type="text" class="form-control clear_string" placeholder="Full Name" name="fullname" value="" required="">
-                    <span class="error text-danger" >These credentials do not match our records.</span>
+                    <span class="error text-danger d-none" >These credentials do not match our records.</span>
                 </div>
                 <div class="col-md-6">
                   <label for="inputEmail4" class="form-label">Email</label>
@@ -218,3 +258,69 @@ span.nameinfo {
     </div>
   </div>
   </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+
+
+$(document).on('click', '.payraz', function() {
+   
+  var selectedGender ='';
+  selectedGender = $("input[name='flexRadioDefault']:checked").val();
+
+
+  // if($('.radio_address').prop('checked')=='true'){
+
+  if(selectedGender!='on'){
+    alert("Please select shipping address");
+    return false;
+  }   
+ if(confirm( 'Are You sure to proceed to now?')){
+    return true;
+  }else{
+    return false;
+
+  }
+
+
+})
+
+
+
+
+$(document).on('click', '#updateCardType', function() {
+
+  var card_type=$('#card_type').val();
+  var card_req_id=$(this).attr('card-req-id');
+  // console.log(card_type,card_req_id);
+    $.ajax({
+        url: '{{ route('update_cart_type') }}',
+        type: 'GET',
+        datType: 'json',
+        data: {
+            card_type:card_type,
+            card_req_id:card_req_id,
+        },
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        success: function(data) {
+            if (data == true) {
+
+              $('#orderSummery').removeClass('d-none');
+
+              $('._price').text('9999');
+              $('.ordernow').removeClass('d-none');
+              $('#orderSummery').removeClass('d-none');
+              $('._price').text('9999');
+              $('._price').text('9999');
+                toastrs('{{ __('Success') }}', 'Updated Successfully', 'success');
+            } else {
+                toastrs('{{ __('Error') }}', 'Coupon code is required', 'error');
+            }
+        }
+    })
+})
+
+  </script>

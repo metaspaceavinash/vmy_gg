@@ -77,15 +77,28 @@ Route::get('/about', [TccController::class, 'about'])->middleware('XSS')->name('
 Route::group(['middleware' => ['verified']], function () {
 
     Route::get('/physical_card', [PhysicalController::class, 'index'])->middleware('XSS', 'auth')->name('physical_card.index');
+
+    Route::get('/physical_card/okay', [PhysicalController::class, 'okay'])->middleware('XSS', 'auth')->name('physical_card.okay');
+
+
     Route::get('/physical_card_status/{id?}', [PhysicalController::class, 'action_popup'])->middleware('XSS', 'auth')->name('physical_card.action_popup');
     Route::get('/action_view_card/{id?}', [PhysicalController::class, 'action_view_card'])->middleware('XSS', 'auth')->name('physical_card.action_view_card');
     Route::get('/add_shipping_address', [PhysicalController::class, 'add_shipping_address'])->middleware('XSS', 'auth');
+
+
     Route::post('/store_shipping_address', [PhysicalController::class, 'store_shipping_address'])->middleware('XSS', 'auth')->name('store_shipping_address');
 
+    Route::get('/update_cart_type', [PhysicalController::class, 'update_cart_type'])->middleware('XSS', 'auth')->name('update_cart_type');
     
     Route::post('/get_dyn_phycard', [PhysicalController::class, 'getCont'])->middleware('XSS', 'auth');
     Route::post('/card_request', [PhysicalController::class, 'card_request'])->middleware('XSS', 'auth');
     Route::post('/pstatus_store', [PhysicalController::class, 'pstatus_store'])->middleware('XSS', 'auth')->name('physical_card.pstatus_store');
+    Route::post('/post_card_request', [PhysicalController::class, 'post_card_request'])->middleware('XSS', 'auth');
+
+    Route::get('/post_card_request', [PhysicalController::class, 'post_card_request'])->middleware('XSS', 'auth');
+
+
+
 
     Route::get('/home', [HomeController::class, 'index'])->middleware('XSS', 'auth', 'CheckPlan')->name('home');
     Route::get('/dashboard', [HomeController::class, 'index'])->middleware('XSS', 'auth', 'CheckPlan')->name('dashboard');
@@ -181,7 +194,10 @@ Route::group(['middleware' => ['verified']], function () {
 
 
     Route::get('/stripe/{code}', [StripePaymentController::class, 'stripe'])->middleware('XSS', 'auth')->name('stripe');
+    Route::get('/phy_stripe/{code}', [StripePaymentController::class, 'phy_stripe'])->middleware('XSS', 'auth')->name('phy_stripe');
+
     Route::post('/stripe', [StripePaymentController::class, 'stripePost'])->middleware('XSS', 'auth')->name('stripe.post');
+    Route::post('/phy_stripe', [StripePaymentController::class, 'phy_stripePost'])->middleware('XSS', 'auth')->name('phy_stripe.post');
 
 
     Route::get('order', [StripePaymentController::class, 'index'])->middleware('XSS', 'auth')->name('order.index');
@@ -229,7 +245,11 @@ Route::group(['middleware' => ['verified']], function () {
     Route::get('/plan/flaterwave/{txref}/{plan_id}', [FlutterwavePaymentController::class, 'getPaymentStatus'])->name('plan.flaterwave');
 
     Route::post('/plan-pay-with-razorpay', [RazorpayPaymentController::class, 'planPayWithRazorpay'])->middleware('XSS', 'auth')->name('plan.pay.with.razorpay');
+    Route::post('/phy_plan-pay-with-razorpay', [RazorpayPaymentController::class, 'phy_planPayWithRazorpay'])->middleware('XSS', 'auth')->name('phy_plan.pay.with.razorpay');
+    
     Route::get('/plan/razorpay/{txref}/{plan_id}', [RazorpayPaymentController::class, 'getPaymentStatus'])->name('plan.razorpay');
+    Route::get('/phy_plan/razorpay/{txref}/{plan_id}', [RazorpayPaymentController::class, 'phy_getPaymentStatus'])->name('phy_plan.razorpay');
+
 
     Route::post('/plan-pay-with-paytm', [PaytmPaymentController::class, 'planPayWithPaytm'])->middleware('XSS', 'auth')->name('plan.pay.with.paytm');
     Route::post('plan/paytm/{plan}', [PaytmPaymentController::class, 'getPaymentStatus'])->name('plan.paytm', 'uses');

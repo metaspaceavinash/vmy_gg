@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Coupon;
 use App\Models\PlanOrder;
+use App\Models\PhycardOrder;
+use App\Models\CardRequest;
 use App\Models\Plan;
 use App\Models\UserCoupon;
 use App\Models\Utility;
@@ -27,6 +29,59 @@ class RazorpayPaymentController extends Controller
         $this->is_enabled = isset($payment_setting['is_razorpay_enabled']) ? $payment_setting['is_razorpay_enabled'] : 'off';
 
         return $this;
+    }
+
+    public function phy_planPayWithRazorpay(Request $request)
+    {
+        
+        $card_req_id = \Illuminate\Support\Facades\Crypt::decrypt($request->plan_id);
+        // print_r($card_req_id); die("Asdfasf");
+        $card_detail = CardRequest::find($card_req_id);
+        $authuser  = \Auth::user();
+        $coupon_id = '';
+        if($card_detail->phy_card_type=='PVC'){  //METAL
+            $price=env('CARD_PRICE_PVC');
+        }else{
+            $price=env('CARD_PRICE_METAL');
+        }
+      
+        if($card_req_id && $price>0)
+        {
+            $orderID = strtoupper(str_replace('.', '', uniqid('', true)));
+            // PhycardOrder::create(
+            //     [
+            //         'order_id' => $orderID,
+            //         'name' => null,
+            //         'email' => null,
+            //         'card_number' => null,
+            //         'card_exp_month' => null,
+            //         'card_exp_year' => null,
+            //         'card_name' => "NA",
+            //         'card_req_id' => $card_req_id,
+            //         'price' => $price,
+            //         'price_currency' => !empty(env('CURRENCY')) ? env('CURRENCY') : 'INR',
+            //         'txn_id' => '',
+            //         'payment_type' => 'Razorpay',
+            //         'payment_status' => 'succeeded',
+            //         'receipt' => null,
+            //         'user_id' => $authuser->id,
+            //     ]
+            // );
+            // $res['msg']  = __("Physical card successfully ordered.");
+            // $res['flag'] = 2;
+            // return $res;
+            $res_data['email']       = Auth::user()->email;
+            $res_data['total_price'] = $price;
+            $res_data['currency']    = env('CURRENCY');
+            $res_data['flag']        = 1;
+            $res_data['coupon']      = $coupon_id;
+            return $res_data;
+        }
+        else
+        {
+            return Utility::error_res(__('Request Card  is not exist.'));
+        }
+
     }
 
 
@@ -189,6 +244,79 @@ class RazorpayPaymentController extends Controller
                     {
                         return redirect()->route('plans.index')->with('error', __($assignPlan['error']));
                     }
+                }
+                else
+                {
+                    return redirect()->route('plans.index')->with('error', __('Transaction has been failed! '));
+                }
+            }
+            catch(\Exception $e)
+            {
+                return redirect()->route('plans.index')->with('error', __('Plan not found!'));
+            }
+        }
+    }
+
+    public function phy_getPaymentStatus(Request $request, $pay_id, $plan)
+    {
+        $payment = $this->paymentConfig();
+        $planID  = \Illuminate\Support\Facades\Crypt::decrypt($plan);
+        $cardReq    = CardRequest::find($planID);
+        $user    = \Auth::user();
+        if($cardReq)
+        {
+            try
+            {
+                $orderID = time();
+                $ch      = curl_init('https://api.razorpay.com/v1/payments/' . $pay_id . '');
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+                curl_setopt($ch, CURLOPT_USERPWD, $this->public_key . ':' . $this->secret_key); // Input your Razorpay Key Id and Secret Id here
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = json_decode(curl_exec($ch));
+                // check that payment is authorized by razorpay or not
+
+                if($response->status == 'authorized')
+                {
+
+                    // if($request->has('coupon_id') && $request->coupon_id != '')
+                    // {
+                    //     $coupons = Coupon::find($request->coupon_id);
+                    //     if(!empty($coupons))
+                    //     {
+                    //         $userCoupon         = new UserCoupon();
+                    //         $userCoupon->user   = $user->id;
+                    //         $userCoupon->coupon = $coupons->id;
+                    //         $userCoupon->order  = $orderID;
+                    //         $userCoupon->save();
+
+
+                    //         $usedCoupun = $coupons->used_coupon();
+                    //         if($coupons->limit <= $usedCoupun)
+                    //         {
+                    //             $coupons->is_active = 0;
+                    //             $coupons->save();
+                    //         }
+                    //     }
+                    // }
+
+                    $order                 = new PhycardOrder();
+                    $order->order_id       = $orderID;
+                    $order->name           = $user->name;
+                    $order->email           = $user->email;
+                    $order->card_number    = '';
+                    $order->card_exp_month = '';
+                    $order->card_exp_year  = '';
+                    $order->card_name      = 'Physical Card';
+                    $order->card_req_id        = $cardReq->id;
+                    $order->price          = isset($response->amount) ? $response->amount / 100 : 0;
+                    $order->price_currency = env('CURRENCY');
+                    $order->txn_id         = isset($response->id) ? $response->id : $pay_id;
+                    $order->payment_type   = __('Razorpay');
+                    $order->payment_status = 'success';
+                    $order->receipt        = '';
+                    $order->user_id        = $user->id;
+                    $order->save();
+                    return redirect()->route('physical_card.okay')->with('success', __('Order Placed  Successfully !!'));
                 }
                 else
                 {

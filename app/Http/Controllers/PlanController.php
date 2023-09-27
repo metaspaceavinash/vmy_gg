@@ -16,7 +16,7 @@ class PlanController extends Controller
             \App::setLocale(\Auth::user()->currentLanguage());
             $users = \Auth::user();
             $currantLang = $users->currentLanguage();
-            $plans                 = Plan::get();
+            $plans = Plan::get();
             $admin_payment_setting = Utility::getAdminPaymentSetting();
 
             return view('plan.index', compact('plans', 'admin_payment_setting','currantLang','users'));

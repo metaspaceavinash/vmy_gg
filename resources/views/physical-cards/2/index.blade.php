@@ -1,161 +1,96 @@
 <?php  
 $SER=env('APP_URL');
-?>
+?> 
+<article>
+
+        
 <style>
-     .postion-r {
-    position: relative;
-    background-size: cover;
-    width: 500px;
-    height: 295px;
-}
  
+    .shareqrcode img {
+    width: 35%;
+    height: 35%;
+    }
+    .shareqrcode canvas {
+    width: 35%;
+    height: 35%;
+    }
 
-.info {
-    padding: 0px;
-    list-style: none;
+
+
+    .scan {
+              top: 109px;
+              left: 41%;
+          }
+
+
+          .pos-r {
+              position: relative;
+          }
+          .pos-ab{ position: absolute;}
+          
+          .u-name {
+    bottom: 49px;
+    color: #fff;
+    font-size: 25px;
+    width: 100%;
+    text-align: center;
 }
-
-.pos-a {
-    position: absolute;
-    display: inline-block;
-    font-weight: 600;
-    font-size: 14px;
-    color:#fff;
+          .u-deg {
+              bottom: 26px;
+              left: 20px;
+              color: #fff;
+          }
+          
+          
+          
+          .logoimg {
+    left: 39%;
+    top: 70px;
+    border-radius: 50%;
+    height: 120px;
+    width: 120px;
 }
-.img-logo {
-    left: 0px;
-    right: 0px;
-    text-align: 0px;
-    top: 0px;
-    bottom: 0px;
-    width: 188px;
-    position: absolute;
-    transform: translate(-4px, 123px);
-}
+          
 
+.scan {
+              top: 109px;
+              left: 41%;
+          }
 
-.email {
-    bottom: 78px;
-    left: 37px;
-}
+  </style>
+  
+  
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-5">
+            <div class="cardviewiiner">
+                  <div class="flip-card">
+                    <div class="flip-card-inner">
+                      <div class="flip-card-front ">
+                      <div class="pos-r">
+                       <img src="{{ $SER }}/assets/card-images/2FrontBlank.png" class="mx-auto d-block img-fluid">
+                        <div class="caption-front">
+                          <img src="{{ $logo_white }}" class="img-fluid logoimg pos-ab">
+                          <h1 class="u-name pos-ab">{{ $title }}</h1>
+                          <!-- <p class="u-deg pos-ab">{{ $designation }}</p> -->
+                        </div>
+                      </div>
+                      </div>
+                      <div class="flip-card-back ">
 
-.call {
-    bottom: 32px;
-    left: 37px;
-}
+                        <div class="pos-r">
+                          <img src="{{ $SER }}/assets/card-images/2BackBlank.png" class="img-fluid  ">
 
-.address {
-    bottom: 32px;
-    left: 300px;
-}
-.url {
-    bottom: 78px;
-    left: 300px;
-}
+                          <div class="caption-back">
+                            <!-- <img src="images/QR.png" class="img-fluid scan pos-ab"> -->
+                               <div class="shareqrcode scan pos-ab">-QR</div> 
 
-.caption-front img {
-    width: 197px;
-    height: auto;
-}
- 
-li.qrcode {
-    position: absolute;
-    right: 77px;
-    top: 82px;
-}
-li.qrcode img {
-    width: 100px !IMPORTANT;
-    height: 100px;
-}
-
-
-</style>
-
-
-
-<style>
-.flip-card {
-    background-color: transparent;
-    width: 626px;
-    height: 325px;
-    /* perspective: 1000px; */
-    /* margin: 0px; */
-    margin: auto;
-    /* background: #ccc; */
-    padding: 10px;
-    border: 2px dashed #ccc;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-}
-
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
-
-.flip-card-front, .flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
-.flip-card-front {
-  background-color: #bbb;
-  color: black;
-  background-image: url("{{ $SER }}/assets/card-images/2FrontBlank.png") !important;
-  display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.flip-card-back {
-  color: white;
-  transform: rotateY(180deg);
-  background-image: url("{{ $SER }}/assets/card-images/3BackBlank.png") !important;
-}
-
-
-.shareqrcode img {
-            width: 25% !important;
-            height: auto !important;
-            padding: 10px 10px;
-            margin-left: 280px;
-            margin-top: 60px;
-        }
-        .shareqrcode canvas {
-            width: 25% !important;
-            height: auto !important;
-            padding: 10px 10px;
-            margin-left: 280px;
-            margin-top: 60px;
-        }
-</style>
-
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="{{ $logo_white }}" width="150px"  >
-                </div>
-                <div class="flip-card-back ww3">
-                    <ul class="info">
-                        <li><div class="shareqrcode"></div></li>
-                        <li class="name-crdowner">{{ $title }}</li>
-                        <li class="degnition">{{ $designation }}</li>
-                        
-                    </ul>
-                </div>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
             </div>
         </div>
-
-        @include('physical-cards.common_qr')
+      </article>
+      @include('physical-cards.common_qr')

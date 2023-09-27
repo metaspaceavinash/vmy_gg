@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\InvoicePayment;
 use App\Models\PlanOrder;
 use App\Models\Plan;
+use App\Models\CardRequest;
 use App\Transaction;
 // use App\UserCoupon;
 use App\Models\UserCoupon;
@@ -34,9 +35,38 @@ class StripePaymentController extends Controller
     }
 
 
+    public function phy_stripe($code)
+    {
+        try{
+            $plan_id               = \Illuminate\Support\Facades\Crypt::decrypt($code);
+            $plan                  = CardRequest::find($plan_id);
+            $admin_payment_setting = Utility::getAdminPaymentSetting();
+             
+        }
+        catch(\RuntimeException $e){
+            return redirect()->back()->with('error',__('Plan not avaliable'));
+        }
+
+        if($plan)
+        {
+              $card_price=0;
+              if($plan->phy_card_type=='PVC'){
+                $card_price=env('CARD_PRICE_PVC');
+              }elseif($plan->phy_card_type=='METAL'){
+                $card_price=env('CARD_PRICE_METAL');
+              }else{
+                return redirect()->back()->with('error', __('Please Choose Card Type.'));
+              }
+            return view('phy_stripe', compact('plan', 'admin_payment_setting','card_price'));
+        }
+        else
+        {
+            return redirect()->back()->with('error', __('Record not found.'));
+        }
+    }
+
     public function stripe($code)
     {
-
         try{
             $plan_id               = \Illuminate\Support\Facades\Crypt::decrypt($code);
             $plan                  = Plan::find($plan_id);

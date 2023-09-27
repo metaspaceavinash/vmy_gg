@@ -1,6 +1,8 @@
 <?php
 	use App\Models\User;
 	use App\Models\Business;
+	use App\Models\CardRequest;
+	use App\Models\PhycardOrder;
 
 
     function pixelSourceCode($platform, $pixelId)
@@ -255,6 +257,17 @@
 		$bs = Business::where('id',$bid)->first();
 		return ucfirst($bs->title);
 	}
+
+	function getSummery($uid){
+		$PhycardOrder = PhycardOrder::where('user_id',$uid)->first();
+		$CardRequest = CardRequest::where('user_id',$uid)->first();
+		$data['PhycardOrder']=$PhycardOrder;
+		$data['CardRequest']=$CardRequest;
+		print_r($data); die("asdf");
+		
+		return $data;
+	}
+
 
 	function getStatus($st){
         //1-Pending 2-Printed 3-Dispacthed 4-Failed 5-Done

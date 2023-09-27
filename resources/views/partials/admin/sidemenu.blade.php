@@ -100,7 +100,7 @@
                             </li>
                         @else
                         <li class="dash-item {{ (Request::segment(1) == 'physical_card')?'active1':''}}">
-                            <a href="{{route('physical_card.index')}}" class="dash-link"><span class="dash-mtext">Request Now</span></a>
+                            <a href="{{route('physical_card.index')}}" class="dash-link"><span class="dash-mtext">Create Card</span></a>
                         </li>
                         <li class="dash-item {{ (Request::segment(1) == 'request_cards')?'active2':''}}">
                             <a href="{{route('physical.view_request_order')}}" class="dash-link"> <span class="dash-mtext">Order Status</span></a>

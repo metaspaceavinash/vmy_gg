@@ -40,57 +40,134 @@
         @endif
 @endpush
 @section('content')
-@include('physical-cards.css_ph1',[$SER,$card_id])
- <div class=" row justify-content-center">
-    <div class="col-12 col-lg-5">
-    <img src="{{ $SER }}/assets/card-images/loader3.gif" class="spingif d-none " />
-        <div class="card-display">
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <img src="{{ $logo_white }}" width="150px" >
-                            </div>
-                            <div class="flip-card-back ww6">
-                                <ul class="info">
-                                    <li class="qrcode">  <div class="shareqrcode">-QR</div> </li>
-                                    <li class="name-crdowner" style="color:#fff">{{ $title }}</li>
-                                    <li class="degnition">{{ $designation }}</li>
-                                </ul>
-                            </div>
+@include('physical-cards.css_ph2',[$SER,$card_id])
+ 
+    
+<article class="card-display">
+
+        
+<style>
+  .scan {
+    top: 60px;
+    left: 0%;
+}
+  .pos-r {
+      position: relative;
+  }
+  .pos-ab{ position: absolute;}
+  
+  .u-name {
+      bottom: 63px;
+      left: 20px;
+      color: #fff;
+      font-size: 25px;
+  }
+  
+  .u-deg {
+      bottom: 26px;
+      left: 20px;
+      color: #fff;
+  }
+  .logoimg{
+      left: 20px;
+      top: 61px;
+  }
+    .shareqrcode img {
+    width: 35%;
+    height: 35%;
+    }
+    .shareqrcode canvas {
+    width: 35%;
+    height: 35%;
+    }
+  </style>
+  
+  
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-5">
+            <div class="cardviewiiner">
+                  <div class="flip-card">
+                    <div class="flip-card-inner">
+                      <div class="flip-card-front ">
+                      <div class="pos-r">
+                       <img src="{{ $SER }}/assets/card-images/1FrontBlank.png" class="mx-auto d-block img-fluid">
+
+                        <div class="caption-front">
+                          <img src="{{ $logo_white }}" class="img-fluid logoimg pos-ab">
+                          <h1 class="u-name pos-ab">{{ $title }}</h1>
+                          <p class="u-deg pos-ab">{{ $designation }}</p>
                         </div>
+                      </div>
+                      </div>
+                      <div class="flip-card-back ">
+
+                        <div class="pos-r">
+                          <img src="{{ $SER }}/assets/card-images/1BackBlank.png" class="img-fluid  ">
+
+                          <div class="caption-back">
+                            <!-- <img src="images/QR.png" class="img-fluid scan pos-ab"> -->
+                               <div class="shareqrcode scan pos-ab">-QR</div> 
+
+                        </div>
+                        </div>
+                      </div>
                     </div>
-                </div>
+                  </div>
+            </div>
+            </div>
         </div>
-    </div>
-<hr/>
-    <div class=" gy-4 row justify-content-center  d-flex flex-row flex-nowrap overflow-auto ot mt-5">
-         @php $jj=""; @endphp
+      </article>
+
+
+
+      <div class="row mt-5">
+
+      @php $jj=""; @endphp
                 @foreach (range(1, 4) as $key=>$value)
                     @if($value==1)
                         @php $jj="checked"; @endphp
                     @else
                 @php $jj=""; @endphp
             @endif
-         <div class="col-12 col-lg-3">
-        <div class=" ">
-        <input type="radio" {{ $jj }} class="custom-control-input  card_design_id_{{ $value }}" value="{{ $value }}"
+
+            <div class="col-12 col-lg-3">
+            <input type="radio" {{ $jj }} class="custom-control-input  card_design_id_{{ $value }}" value="{{ $value }}"
             id="ck2{{ $value }}" name="card_design_id">
-        <label class="Dcng_phy_card L136" id="vvn_{{$key}}" data-card_design_id="{{ $value }}" for="ck2{{ $value }}">
-            <img src="{{ asset('assets/card-images/' . $value . 'FrontBlank.png') }}" alt=""
-                data-card_design_id="{{ $value }}" class="img-fluid">
-        </label>
-    </div>
-</div>
+            <label class="Dcng_phy_card L136" id="vvn_{{$key}}" data-card_design_id="{{ $value }}" for="ck2{{ $value }}">
+                <div class="img-tab">
+                    <img src="{{ asset('assets/card-images/' . $value . 'FrontBlank.png') }}" class="mx-auto d-block img-fluid">
+                </div>
+            </div>
+            </label>
 @endforeach
+          
+        
+       
+        </div> 
+
+        <div class="row mt-5">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+        </div>
 
 
-</div>
 
-<style>
-    .sclFlex{
-        flex-direction: row-reverse;
-    }
-</style>
+ 
 @php 
     $bid = isset($qr_detail->business_id) ? $qr_detail->business_id : null;
     $uid = isset($user->current_business) ? $user->current_business : null;
@@ -109,11 +186,18 @@
     $bussiness_id = $users->current_business;
 @endphp
 
-    <form name="card_request" id="card_request" action="/card_request" method="post">
+    <!-- <form name="card_request" id="card_request" action="/card_request" method="post"> -->
+    <form name="card_request" id="card_request" action="/post_card_request" method="post">
+
+        @csrf
         <input type="hidden" name="cid" id="cid" value="1" />
         <input type="hidden" name="bid" id="bid" value="{{ $bussiness_id }}" />
         <input type="hidden" name="uid" id="uid" value="{{ $users->id }}"/>
-        <div class="d-flex align-items-center justify-content-between mt-3 sclFlex">
+        <div class="d-flex align-items-center justify-content-between mt-3 sclFlex d-none">
+            <h5 class="mb-0"></h5>
+            <button type="submit" class="btn btn-primary cardNewResss">   <i class="me-2" data-feather="folder"></i> Request Now</button>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mt-3">
             <h5 class="mb-0"></h5>
             <button type="submit" class="btn btn-primary cardNewResss">   <i class="me-2" data-feather="folder"></i> Request Now</button>
         </div>

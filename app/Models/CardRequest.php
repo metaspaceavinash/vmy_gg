@@ -26,5 +26,6 @@ class CardRequest extends Model
             'qr_code',
             'status',
             'printed_at',
+            'phy_card_type',
     ];
 }

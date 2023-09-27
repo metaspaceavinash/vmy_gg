@@ -13,5 +13,15 @@
 @endsection
 
 @section('content')
-@include('physical-cards.shipping_address_form')
+<?php  //echo "<pre>"; print_r($card_request_deatails); die("Asdf"); 
+$data['rs']=$rs;
+
+// $data['METAL_COUNT']=$METAL_COUNT;
+// $data['PVC_COUNT']=$PVC_COUNT;
+
+$data['METAL_COUNT']=$METAL_COUNT;
+$data['PVC_COUNT']=$PVC_COUNT;
+$data['card_request_deatails']=$card_request_deatails;
+?>
+@include('physical-cards.shipping_address_form',$data)
 @endsection
