@@ -1,21 +1,97 @@
-<?php 
+<?php  
 $SER=env('APP_URL');
-$card_id=4;
-?>
-<?php echo $__env->make('physical-cards.css_ph1',[$SER,$card_id], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="<?php echo e($logo_white); ?>" width="150px"  >
-                </div>
-                <div class="flip-card-back ww5">
-                    <ul class="info">
-                        <li><div class="shareqrcode"></div></li>
-                        <li class="name-crdowner"><?php echo e($title); ?></li>
-                        <li class="degnition"><?php echo e($designation); ?></li>
-                        
-                    </ul>
-                </div>
+?> 
+<article>
+
+        
+<style>
+ 
+    .shareqrcode img {
+    width: 35%;
+    height: 35%;
+    }
+    .shareqrcode canvas {
+    width: 35%;
+    height: 35%;
+    }
+
+
+
+    .scan {
+              top: 109px;
+              left: 41%;
+          }
+
+
+          .pos-r {
+              position: relative;
+          }
+          .pos-ab{ position: absolute;}
+          
+          .u-name {
+    bottom: 49px;
+    color: #fff;
+    font-size: 25px;
+    width: 100%;
+    text-align: center;
+}
+          .u-deg {
+              bottom: 26px;
+              left: 20px;
+              color: #fff;
+          }
+          
+          
+          
+          .logoimg {
+    left: 39%;
+    top: 70px;
+    border-radius: 50%;
+    height: 120px;
+    width: 120px;
+}
+          
+
+.scan {
+              top: 109px;
+              left: 41%;
+          }
+
+  </style>
+  
+  
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-5">
+            <div class="cardviewiiner">
+                  <div class="flip-card">
+                    <div class="flip-card-inner">
+                      <div class="flip-card-front ">
+                      <div class="pos-r">
+                       <img src="<?php echo e($SER); ?>/assets/card-images/4FrontBlank.png" class="mx-auto d-block img-fluid">
+                        <div class="caption-front">
+                          <img src="<?php echo e($logo_white); ?>" class="img-fluid logoimg pos-ab">
+                          <h1 class="u-name pos-ab"><?php echo e($title); ?></h1>
+                          <!-- <p class="u-deg pos-ab"><?php echo e($designation); ?></p> -->
+                        </div>
+                      </div>
+                      </div>
+                      <div class="flip-card-back ">
+
+                        <div class="pos-r">
+                          <img src="<?php echo e($SER); ?>/assets/card-images/4BackBlank.png" class="img-fluid  ">
+
+                          <div class="caption-back">
+                            <!-- <img src="images/QR.png" class="img-fluid scan pos-ab"> -->
+                               <div class="shareqrcode scan pos-ab">-QR</div> 
+
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
             </div>
         </div>
-<?php echo $__env->make('physical-cards.common_qr', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\vmy_gg\vmycard\resources\views/physical-cards/4/index.blade.php ENDPATH**/ ?>
+      </article>
+      <?php echo $__env->make('physical-cards.common_qr', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php /**PATH C:\laragon\www\vmy_gg\vmycard\resources\views/physical-cards/4/index.blade.php ENDPATH**/ ?>
