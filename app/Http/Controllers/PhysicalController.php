@@ -37,8 +37,6 @@ class PhysicalController extends Controller
         $user = \Auth::user();
         $users = User::find(\Auth::user()->creatorId());
         $data['card_request_deatails'] = CardRequest::where('user_id', '=', $users->id)->get();
-        // print_r($data['card_request_deatails']);
-
         return view('physical-cards.sadmin_view_orders',$data);
     }
 
