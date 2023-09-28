@@ -2,6 +2,7 @@
 <script src="{{ asset('custom/js/jquery.qrcode.min.js') }}"></script>
 <script>
 $(document).ready(function() {
+        alert("asaf");
         var slug = '{{ $businessData->slug }}';
         var url_link = `{{ url('/') }}/${slug}`;
         $(`.qr-link`).text(url_link);

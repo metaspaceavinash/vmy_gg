@@ -1,0 +1,49 @@
+.scan {
+    top: 60px;
+    left: 0%;
+}
+  
+  .u-deg {
+      bottom: 26px;
+      left: 20px;
+      color: #fff;
+  }
+  .logoimg{
+      left: 20px;
+      top: 61px;
+  }
+
+    .shareqrcode img {
+    width: 35%;
+    height: 35%;
+    }
+    .shareqrcode canvas {
+    width: 35%;
+    height: 35%;
+    }
+
+
+
+    /*=====================*/
+
+    .logoimg {
+        left: 20px;
+        top: 61px;
+        position: static;
+        margin-top: -175px;
+    }
+
+    .u-name {
+        bottom: 75px;
+        /* left: 20px; */
+        color: #fff;
+        font-size: 35px;
+        text-align: center;
+        width: 100%;
+    }
+    p.u-deg.pos-ab {
+        display: none;
+    }
+    .u-name.pos-ab {
+        display: none;
+    }

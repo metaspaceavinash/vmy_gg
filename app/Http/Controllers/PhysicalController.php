@@ -37,6 +37,8 @@ class PhysicalController extends Controller
         $user = \Auth::user();
         $users = User::find(\Auth::user()->creatorId());
         $data['card_request_deatails'] = CardRequest::where('user_id', '=', $users->id)->get();
+        // print_r($data['card_request_deatails']);
+
         return view('physical-cards.sadmin_view_orders',$data);
     }
 
@@ -44,8 +46,18 @@ class PhysicalController extends Controller
     {
         $template_folder_id=$request->card_design_id;
         $data=$this->getBusin($request);
-    
         $htmlContent = view('physical-cards.'.$template_folder_id.'.index')->with($data)->render();
+        return response()->json(['html' => $htmlContent]);
+    }
+
+    public function get_dyn_phy(Request $request)
+    {
+      
+
+        $template_folder_id=$request->card_design_id;
+        $data=$this->getBusin($request);
+        $data['card_id']=$template_folder_id;
+        $htmlContent = view('physical-cards.main_phy')->with($data)->render();
         return response()->json(['html' => $htmlContent]);
     }
 

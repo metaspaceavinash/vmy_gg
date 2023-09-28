@@ -1,0 +1,49 @@
+
+@import url('https://fonts.cdnfonts.com/css/nasalization');
+.scan {
+    top: 60px;
+    left: 0%;
+}
+  
+
+  .u-deg {
+    bottom: 43px;
+    left: 20px;
+    color: #9f9c9c;
+    font-family: 'Nasalization Rg', sans-serif;
+
+  }
+
+  .logoimg{
+      left: 20px;
+      top: 61px;
+  }
+
+    .shareqrcode img {
+    width: 35%;
+    height: 35%;
+    }
+    .shareqrcode canvas {
+    width: 35%;
+    height: 35%;
+    }
+
+
+
+    /*=====================*/
+
+    .logoimg {
+        left: 20px;
+        top: 61px;
+        position: static;
+        margin-top: -200px;
+    }
+
+    .u-name {
+        bottom: 75px;
+        left: 20px;
+        color: #fff;
+        font-size: 35px;
+		font-family: 'Nasalization Rg', sans-serif;
+    }
+    

@@ -353,7 +353,31 @@ input[type="radio"]:checked + label img {
 
          <script>
 
+
             function seAutoTemplate(desid, vcid, vid) {
+                $('.spingif').removeClass('d-none');
+                $('.flip-card').addClass('d-none');
+                var currentURL = window.location.href;
+                var url = new URL(currentURL);
+                var baseUrl2 = url.protocol + '//' + url.host;
+                $.ajax({
+                    url: '/get_dyn_phycard_sun', // Laravel route URL
+                    type: 'POST',
+                    data: { card_design_id: desid, rdo_vcard_id: vcid },
+                    success: function (response) {
+                        $('.spingif').addClass('d-none');
+                        $('.flip-card').removeClass('d-none');
+                    $('.card-display').html(response.html);
+                    },
+                    error: function (error) {
+                    console.log('Error:', error);
+                    }
+                });
+            }
+
+
+
+            function seAutoTemplatexxx(desid, vcid, vid) {
                 $('.spingif').removeClass('d-none');
                 $('.flip-card').addClass('d-none');
                 var currentURL = window.location.href;

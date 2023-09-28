@@ -91,6 +91,9 @@ Route::group(['middleware' => ['verified']], function () {
     Route::get('/update_cart_type', [PhysicalController::class, 'update_cart_type'])->middleware('XSS', 'auth')->name('update_cart_type');
     
     Route::post('/get_dyn_phycard', [PhysicalController::class, 'getCont'])->middleware('XSS', 'auth');
+    Route::post('/get_dyn_phy', [PhysicalController::class, 'get_dyn_phy'])->middleware('XSS', 'auth');
+
+
     Route::post('/card_request', [PhysicalController::class, 'card_request'])->middleware('XSS', 'auth');
     Route::post('/pstatus_store', [PhysicalController::class, 'pstatus_store'])->middleware('XSS', 'auth')->name('physical_card.pstatus_store');
     Route::post('/post_card_request', [PhysicalController::class, 'post_card_request'])->middleware('XSS', 'auth');

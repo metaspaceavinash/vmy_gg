@@ -23,6 +23,7 @@ class VerifyCsrfToken extends Middleware
         'plan-paytab-success/',
         '/aamarpay*',
         'get_dyn_phycard',
+        'get_dyn_phy',
         'card_request',
         '/login' //Added By Anupam to remove session expiration issue during login
     ];

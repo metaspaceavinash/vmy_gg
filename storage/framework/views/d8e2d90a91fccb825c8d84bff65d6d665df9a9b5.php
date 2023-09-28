@@ -40,106 +40,29 @@
         <?php endif; ?>
 <?php $__env->stopPush(); ?>
 <?php $__env->startSection('content'); ?>
-<?php echo $__env->make('physical-cards.css_ph2',[$SER,$card_id], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
- 
-    
-<article class="card-display">
 
-        
-<style>
-  .scan {
-    top: 60px;
-    left: 0%;
-}
-  .pos-r {
-      position: relative;
-  }
-  .pos-ab{ position: absolute;}
-  
-  .u-name {
-      bottom: 63px;
-      left: 20px;
-      color: #fff;
-      font-size: 25px;
-  }
-  
-  .u-deg {
-      bottom: 26px;
-      left: 20px;
-      color: #fff;
-  }
-  .logoimg{
-      left: 20px;
-      top: 61px;
-  }
-    .shareqrcode img {
-    width: 35%;
-    height: 35%;
-    }
-    .shareqrcode canvas {
-    width: 35%;
-    height: 35%;
-    }
-  </style>
-  
-  
-        <div class="row justify-content-center">
-            <div class="col-12 col-lg-5">
-            <div class="cardviewiiner">
-                  <div class="flip-card">
-                    <div class="flip-card-inner">
-                      <div class="flip-card-front ">
-                      <div class="pos-r">
-                       <img src="<?php echo e($SER); ?>/assets/card-images/1FrontBlank.png" class="mx-auto d-block img-fluid">
-
-                        <div class="caption-front">
-                          <img src="<?php echo e($logo_white); ?>" class="img-fluid logoimg pos-ab">
-                          <h1 class="u-name pos-ab"><?php echo e($title); ?></h1>
-                          <p class="u-deg pos-ab"><?php echo e($designation); ?></p>
-                        </div>
-                      </div>
-                      </div>
-                      <div class="flip-card-back ">
-
-                        <div class="pos-r">
-                          <img src="<?php echo e($SER); ?>/assets/card-images/1BackBlank.png" class="img-fluid  ">
-
-                          <div class="caption-back">
-                            <!-- <img src="images/QR.png" class="img-fluid scan pos-ab"> -->
-                               <div class="shareqrcode scan pos-ab">-QR</div> 
-
-                        </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            </div>
-            </div>
-        </div>
-      </article>
-
-
+<?php echo $__env->make('physical-cards.css_ph3',[$SER,$card_id], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('physical-cards.main_phy',[$SER,$card_id], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
       <div class="row mt-5">
-
       <?php $jj=""; ?>
-                <?php $__currentLoopData = range(1, 4); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = range(1, 10); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if($value==1): ?>
                         <?php $jj="checked"; ?>
                     <?php else: ?>
                 <?php $jj=""; ?>
             <?php endif; ?>
 
-            <div class="col-12 col-lg-3">
-            <input type="radio" <?php echo e($jj); ?> class="custom-control-input  card_design_id_<?php echo e($value); ?>" value="<?php echo e($value); ?>"
+            <div class="col-12 col-lg-3 mt-2 mb-3 line-content">
+            <input type="radio" <?php echo e($jj); ?> class="custom-control-input d-none  card_design_id_<?php echo e($value); ?>" value="<?php echo e($value); ?>"
             id="ck2<?php echo e($value); ?>" name="card_design_id">
             <label class="Dcng_phy_card L136" id="vvn_<?php echo e($key); ?>" data-card_design_id="<?php echo e($value); ?>" for="ck2<?php echo e($value); ?>">
                 <div class="img-tab">
-                    <img src="<?php echo e(asset('assets/card-images/' . $value . 'FrontBlank.png')); ?>" class="mx-auto d-block img-fluid">
+                    <img src="<?php echo e(asset('assets/card-images/Card-' . $value . '/Show.png')); ?>" class="mx-auto d-block img-fluid">
                 </div>
             </div>
             </label>
-<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           
         
        
@@ -147,28 +70,115 @@
 
         <div class="row mt-5">
             <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                  <li class="page-item">
+                <ul id="pagin pagination justify-content-center"></ul>
+
+                <ul id="pagin" class=" pagination justify-content-center">
+                  <!-- <li class="page-item">
                     <a class="page-link" href="#" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                 
                   <li class="page-item">
                     <a class="page-link" href="#" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
-                  </li>
+                  </li> -->
+
+                  
                 </ul>
+
+
+        
+
               </nav>
         </div>
 
+       
+ 
+        <!-- <ul id="pagin"></ul> -->
 
 
+<script> 
+
+//Pagination
+pageSize = 4;
+incremSlide = 5;
+startPage = 0;
+numberPage = 0;
+
+var pageCount =  $(".line-content").length / pageSize;
+var totalSlidepPage = Math.floor(pageCount / incremSlide);
+    
+for(var i = 0 ; i<pageCount;i++){
+    $("#pagin").append('<li class="page-item"><a href="#">'+(i+1)+'</a></li> ');
+    if(i>pageSize){
+       $("#pagin li").eq(i).hide();
+    }
+}
+
+var prev = $("<li/>").addClass("prev").html("<<").click(function(){
+   startPage-=5;
+   incremSlide-=5;
+   numberPage--;
+   slide();
+});
+
+prev.hide();
+
+var next = $("<li/>").addClass("next").html(">>").click(function(){
+   startPage+=5;
+   incremSlide+=5;
+   numberPage++;
+   slide();
+});
+
+$("#pagin").prepend(prev).append(next);
+
+$("#pagin li").first().find("a").addClass("current");
+
+slide = function(sens){
+   $("#pagin li").hide();
+   
+   for(t=startPage;t<incremSlide;t++){
+     $("#pagin li").eq(t+1).show();
+   }
+   if(startPage == 0){
+     next.show();
+     prev.hide();
+   }else if(numberPage == totalSlidepPage ){
+     next.hide();
+     prev.show();
+   }else{
+     next.show();
+     prev.show();
+   }
+   
+    
+}
+
+showPage = function(page) {
+	  $(".line-content").hide();
+	  $(".line-content").each(function(n) {
+	      if (n >= pageSize * (page - 1) && n < pageSize * page)
+	          $(this).show();
+	  });        
+}
+    
+showPage(1);
+$("#pagin li a").eq(0).addClass("current");
+
+$("#pagin li a").click(function() {
+	 $("#pagin li a").removeClass("current");
+	 $(this).addClass("current");
+	 showPage(parseInt($(this).text()));
+});
+
+
+</script>
  
 <?php 
+
     $bid = isset($qr_detail->business_id) ? $qr_detail->business_id : null;
     $uid = isset($user->current_business) ? $user->current_business : null;
     $cid=null;
@@ -210,13 +220,14 @@
                 var url = new URL(currentURL);
                 var baseUrl2 = url.protocol + '//' + url.host;
                 $.ajax({
-                    url: '/get_dyn_phycard', // Laravel route URL
+                    url: '/get_dyn_phy', // Laravel route URL
                     type: 'POST',
                     data: { card_design_id: desid, rdo_vcard_id: vcid },
                     success: function (response) {
                         $('.spingif').addClass('d-none');
                         $('.flip-card').removeClass('d-none');
-                    $('.card-display').html(response.html);
+                        $('.card-display').html(response.html);
+                        QRT();
                     },
                     error: function (error) {
                     console.log('Error:', error);
@@ -260,44 +271,75 @@
                 seRpk(2,2,3);
             });
 
-            $(document).ready(function() {
-                <?php if($businessData): ?>
-                    var slug = '<?php echo e($businessData->slug); ?>';
-                    var url_link = `<?php echo e(url('/')); ?>/${slug}`;
-                    $(`.qr-link`).text(url_link);
-                    <?php if(isset($plan->enable_qr_code) && $plan->enable_qr_code == 'on'): ?>
-                        var foreground_color =
-                            `<?php echo e(isset($qr_detail->foreground_color) ? $qr_detail->foreground_color : '#000000'); ?>`;
-                        var background_color =
-                            `<?php echo e(isset($qr_detail->background_color) ? $qr_detail->background_color : '#ffffff'); ?>`;
-                        var radius = `<?php echo e(isset($qr_detail->radius) ? $qr_detail->radius : 26); ?>`;
-                        var qr_type = `<?php echo e(isset($qr_detail->qr_type) ? $qr_detail->qr_type : 0); ?>`;
-                        var qr_font = `<?php echo e(isset($qr_detail->qr_text) ? $qr_detail->qr_text : 'vCard'); ?>`;
-                        var qr_font_color =
-                            `<?php echo e(isset($qr_detail->qr_text_color) ? $qr_detail->qr_text_color : '#f50a0a'); ?>`;
-                        var size = `<?php echo e(isset($qr_detail->size) ? $qr_detail->size : 9); ?>`;
 
-                        $('.shareqrcode').empty().qrcode({
-                            render: 'image',
-                            size: 500,
-                            ecLevel: 'H',
-                            minVersion: 3,
-                            quiet: 1,
-                            text: url_link,
-                            fill: foreground_color,
-                            background: background_color,
-                            radius: .01 * parseInt(radius, 10),
-                            mode: parseInt(qr_type, 10),
-                            label: qr_font,
-                            fontcolor: qr_font_color,
-                            image: $("#image-buffers")[0],
-                            mSize: .01 * parseInt(size, 10)
-                        });
-                    <?php else: ?>
-                        $('.shareqrcode').qrcode(url_link);
-                    <?php endif; ?>
-                <?php endif; ?>
+
+
+            $(document).ready(function() {
+                var slug = '<?php echo e($businessData->slug); ?>';
+                var url_link = `<?php echo e(url('/')); ?>/${slug}`;
+                $(`.qr-link`).text(url_link);
+                var foreground_color =
+                    `<?php echo e(isset($qr_detail->foreground_color) ? $qr_detail->foreground_color : '#000000'); ?>`;
+                var background_color =
+                    `<?php echo e(isset($qr_detail->background_color) ? $qr_detail->background_color : '#ffffff'); ?>`;
+                var radius = `<?php echo e(isset($qr_detail->radius) ? $qr_detail->radius : 26); ?>`;
+                var qr_type = `<?php echo e(isset($qr_detail->qr_type) ? $qr_detail->qr_type : 0); ?>`;
+                var qr_font = `<?php echo e(isset($qr_detail->qr_text) ? $qr_detail->qr_text : 'vCard'); ?>`;
+                var qr_font_color =
+                    `<?php echo e(isset($qr_detail->qr_text_color) ? $qr_detail->qr_text_color : '#f50a0a'); ?>`;
+                var size = `<?php echo e(isset($qr_detail->size) ? $qr_detail->size : 9); ?>`;
+                var Vss=$('.shareqrcode').empty().qrcode({
+                    render: 'image',
+                    size: 500,
+                    ecLevel: 'H',
+                    minVersion: 3,
+                    quiet: 1,
+                    text: url_link,
+                    fill: foreground_color,
+                    background: background_color,
+                    radius: .01 * parseInt(radius, 10),
+                    mode: parseInt(qr_type, 10),
+                    label: qr_font,
+                    fontcolor: qr_font_color,
+                    image: $("#image-buffers")[0],
+                    mSize: .01 * parseInt(size, 10)
+                });
+
+                console.log('Vss',Vss);
             });
+
+
+            function QRT(){
+                var slug = '<?php echo e($businessData->slug); ?>';
+                var url_link = `<?php echo e(url('/')); ?>/${slug}`;
+                $(`.qr-link`).text(url_link);
+                var foreground_color =
+                    `<?php echo e(isset($qr_detail->foreground_color) ? $qr_detail->foreground_color : '#000000'); ?>`;
+                var background_color =
+                    `<?php echo e(isset($qr_detail->background_color) ? $qr_detail->background_color : '#ffffff'); ?>`;
+                var radius = `<?php echo e(isset($qr_detail->radius) ? $qr_detail->radius : 26); ?>`;
+                var qr_type = `<?php echo e(isset($qr_detail->qr_type) ? $qr_detail->qr_type : 0); ?>`;
+                var qr_font = `<?php echo e(isset($qr_detail->qr_text) ? $qr_detail->qr_text : 'vCard'); ?>`;
+                var qr_font_color =
+                    `<?php echo e(isset($qr_detail->qr_text_color) ? $qr_detail->qr_text_color : '#f50a0a'); ?>`;
+                var size = `<?php echo e(isset($qr_detail->size) ? $qr_detail->size : 9); ?>`;
+                var Vss=$('.shareqrcode').empty().qrcode({
+                    render: 'image',
+                    size: 500,
+                    ecLevel: 'H',
+                    minVersion: 3,
+                    quiet: 1,
+                    text: url_link,
+                    fill: foreground_color,
+                    background: background_color,
+                    radius: .01 * parseInt(radius, 10),
+                    mode: parseInt(qr_type, 10),
+                    label: qr_font,
+                    fontcolor: qr_font_color,
+                    image: $("#image-buffers")[0],
+                    mSize: .01 * parseInt(size, 10)
+                });
+            }
          </script>
          <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\vmy_gg\vmycard\resources\views/physical-cards/main_physical.blade.php ENDPATH**/ ?>
